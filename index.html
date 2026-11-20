@@ -821,6 +821,12 @@ setup.canCheckReceipt = function () {
 	return setup.hasEvidence("receiptNotice") && (setup.hasEvidence("receiptRule") || setup.hasEvidence("receiptWitness"));
 };
 
+setup.canAskReceiptWitnesses = function () {
+	var V = State.variables;
+	return V.room === "宴会厅" && V.time <= 1408 && !V.mon3trRescued
+		&& setup.hasEvidence("receiptNotice") && !setup.hasEvidence("receiptWitness");
+};
+
 setup.receiptReturn = function () {
 	var V = State.variables;
 	if (V.receiptReturn === "推理_证据" && V.mon3trRescued && V.accused) return V.receiptReturn;
@@ -2067,6 +2073,9 @@ $(document).on(":passagedisplay", function (event) {
 		&lt;div class=&quot;gal-speaker&quot;&gt;侦探&lt;/div&gt;
 		&lt;div class=&quot;gal-text&quot;&gt;这桌人各自看见了庄园的一小部分。先问他们当时在做什么，再核对说得上的细节。&lt;/div&gt;
 	&lt;/div&gt;
+	&lt;&lt;if setup.canAskReceiptWitnesses()&gt;&gt;
+	&lt;div class=&quot;gal-choices&quot;&gt;[[拿迎宾夹问三人三 👀 和小七（2分）-&gt;回执_问证]]&lt;/div&gt;
+	&lt;&lt;/if&gt;&gt;
 	&lt;div class=&quot;gal-choices suspect-list&quot;&gt;
 	&lt;&lt;for _pair range setup.suspects&gt;&gt;
 		&lt;&lt;set _n to _pair[0]&gt;&gt;
@@ -4766,7 +4775,7 @@ $(document).on(":passagedisplay", function (event) {
 			&lt;&lt;if ($room is &quot;偏厅&quot; or ($room is &quot;书房&quot; and $mon3trRescued)) and not setup.hasEvidence(&quot;receiptRule&quot;)&gt;&gt;
 				[[核对公开底卡和空白样件-&gt;回执_底卡]]
 			&lt;&lt;/if&gt;&gt;
-			&lt;&lt;if $room is &quot;宴会厅&quot; and $time lte 1408 and not $mon3trRescued and not setup.hasEvidence(&quot;receiptWitness&quot;)&gt;&gt;
+			&lt;&lt;if setup.canAskReceiptWitnesses()&gt;&gt;
 				[[问三人三 👀 和小七见过哪一联（2分）-&gt;回执_问证]]
 			&lt;&lt;/if&gt;&gt;
 			&lt;&lt;if $receiptGuess and $receiptResult is &quot;pending&quot; and setup.canCheckReceipt()&gt;&gt;
@@ -4810,7 +4819,7 @@ $(document).on(":passagedisplay", function (event) {
 		evidence:{id:&quot;receiptRule&quot;,label:&quot;Q 系列蓝框副联只表示贺词收件；原样件的「贺词收到」在争议夹页上被遮住，资金变更另需独立落款&quot;,source:&quot;迎宾架留底样件&quot;},
 		log:&quot;核对 Q-04 与公开迎宾样件&quot;
 	}&gt;&gt;
-&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="137" name="回执_问证" tags="" position="850,1725" size="100,100">&lt;&lt;if $room is not &quot;宴会厅&quot; or $time gt 1408 or $mon3trRescued or not setup.hasEvidence(&quot;receiptNotice&quot;) or setup.hasEvidence(&quot;receiptWitness&quot;)&gt;&gt;
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="137" name="回执_问证" tags="" position="850,1725" size="100,100">&lt;&lt;if not setup.canAskReceiptWitnesses()&gt;&gt;
 	&lt;&lt;goto &quot;回执_案上&quot;&gt;&gt;
 &lt;&lt;else&gt;&gt;
 	&lt;&lt;showTime&gt;&gt;
@@ -4870,7 +4879,7 @@ $(document).on(":passagedisplay", function (event) {
 				&lt;&lt;elseif setup.hasEvidence(&quot;receiptWitness&quot;)&gt;&gt;
 					左边是 Q-04 对外确认改用途的夹页。右边是早前只写了贺词挂号的小七，以及亲眼看见挂号后夹子才离开视线的三人三。两个人都没见过批准转款。
 				&lt;&lt;else&gt;&gt;
-					眼下只有争议回执。回偏厅看公开底卡，或去宴会厅找三人三和小七问那只迎宾夹。
+					眼下只有争议回执。&lt;&lt;if $mon3trRescued&gt;&gt;Mon3tr 还留着迎宾架的样件。收起这份推断，回到回执旁和她一起对读。&lt;&lt;elseif $time gt 1408&gt;&gt;来不及到席间问完两个人了。先顾书房，底卡还可以稍后核对。&lt;&lt;else&gt;&gt;偏厅的迎宾架上有公开底卡。也可以去宴会厅的证人席，把迎宾夹拿给三人三和小七，问清他们各自碰过哪一联。&lt;&lt;/if&gt;&gt;
 				&lt;&lt;/if&gt;&gt;
 			&lt;/div&gt;
 		&lt;/div&gt;
