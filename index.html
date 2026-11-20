@@ -1224,8 +1224,6 @@ setup.initRun = function () {
 		musicHeard:false,
 		midnightSeen:false,
 		rescueMethod:false,
-		mirrorSeen:false,
-		mirrorExplanation:false,
 		mon3trLocation:false,
 		dangerKnown:false,
 		serviceRoute:false,
@@ -2073,9 +2071,7 @@ $(document).on(":passagedisplay", function (event) {
 		[[记下 Mon3tr 的名字，前往宴会厅（5分）-&gt;移动_宴会厅]]
 		[[查看地图-&gt;地图]]
 	&lt;/div&gt;
-&lt;/div&gt;
-&lt;&lt;set $knowledge.mirrorSeen to true&gt;&gt;
-&lt;&lt;set $knowledge.mirrorExplanation to true&gt;&gt;</tw-passagedata><tw-passagedata pid="7" name="宴会厅" tags="" position="850,100" size="100,100">&lt;&lt;showTime&gt;&gt;
+&lt;/div&gt;</tw-passagedata><tw-passagedata pid="7" name="宴会厅" tags="" position="850,100" size="100,100">&lt;&lt;showTime&gt;&gt;
 &lt;&lt;set _altPresent to not ($time gte 1230 and $time lt 1270)&gt;&gt;
 &lt;&lt;set _ttyPresent to setup.atGuestSeat(&quot;TTY&quot;)&gt;&gt;
 &lt;div class=&quot;stage gal-scene&quot;&gt;
@@ -2554,7 +2550,7 @@ $(document).on(":passagedisplay", function (event) {
 	return:&quot;宴会厅对话&quot;,
 	talked:&quot;TTY&quot;,
 	deep:null,
-	knowledgeFlag:&quot;mirrorSeen&quot;,
+	knowledgeFlag:null,
 	evidence:{id:&quot;teamLead&quot;,label:&quot;中庭有反拿书阅读的萨卡兹佣兵，厨房后有蓝丝带小驴子&quot;,source:&quot;TTY&quot;},
 	log:&quot;TTY 指出两名潜在队友&quot;
 }&gt;&gt;
